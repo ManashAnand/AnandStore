@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/Wrapper/theme-provider";
 import Footer from "@/components/Custom/Footer";
 import AuthProvider from "@/Wrapper/Authprovider";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
             <Footer />
           </ThemeProvider>
         </AuthProvider>
+        <Analytics/>
       </body>
     </html>
   );
