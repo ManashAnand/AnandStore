@@ -10,7 +10,7 @@ export const options = {
       profile(profile) {
 
         let userRole = "test@gmail.com";
-        if (profile?.email == "anandmanash321@gmail.com") userRole = "admin";
+        if (profile?.email == process.env.NEXT_PUBLIC_ADMIN_EMAIL) userRole = "admin";
         else userRole = "user";
 
         return {

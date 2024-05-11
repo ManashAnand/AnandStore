@@ -16,6 +16,7 @@ import Link from "next/link";
 const Navbar = () => {
   // console.log(useSession())
   const { data: session } = useSession();
+  console.log(session)
   return (
     <>
       <header className="bg-light_prm dark:bg-dark_prm border-2 border-b-dark_prm border-opacity-25">
@@ -28,6 +29,13 @@ const Navbar = () => {
               alt={"logo"}
             />
           </div>
+          {
+            session?.user?.role == "admin" && (
+              <Link href='/AdminDashboard' className="text-dark_prm font-semibold bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 mr-3 rounded-lg text-sm px-5 py-2.5 dark:bg-yellow-400 dark:hover:bg-yellow-500 focus:outline-none dark:focus:ring-yellow-400 mt-5 md:mt-0">
+                Admin 
+              </Link>
+            )
+          }
           {/* search */}
           <div className="w-full max-w-xs xl:max-w-lg 2xl:max-w-2xl bg-gray-100 rounded-md hidden xl:flex items-center">
             <DropdownMenu>
