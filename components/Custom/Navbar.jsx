@@ -16,10 +16,9 @@ import Link from "next/link";
 const Navbar = () => {
   // console.log(useSession())
   const { data: session } = useSession();
-  console.log(session);
   return (
     <>
-      <header className="bg-light_prm dark:bg-dark_prm border-2 border-b-dark_prm">
+      <header className="bg-light_prm dark:bg-dark_prm border-2 border-b-dark_prm border-opacity-25">
         <div className="container mx-auto px-4 py-8 flex items-center">
           {/* logo */}
           <div className="mr-auto md:w-48 flex-shrink-0">
@@ -119,7 +118,7 @@ const Navbar = () => {
           </li>
           {/* buttons */}
           <nav className="contents">
-            <ul className=" xl:w-48 flex items-center justify-end">
+            <ul className="ml-4 xl:w-48 flex items-center justify-end">
               {session && (
                 <>
                   <li className="ml-2 lg:ml-4 relative inline-block">
@@ -203,7 +202,7 @@ const Navbar = () => {
         <hr />
       </header>
 
-      <div className="w-full flex  bg-gray-100 rounded-md  items-center xl:hidden">
+      <div className="w-full flex flex-col  bg-gray-100 rounded-md  items-center xl:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger className="bg-transparent uppercase font-bold text-sm p-4 dark:text-dark_prm flex justify-around">
             categories
@@ -233,7 +232,7 @@ const Navbar = () => {
         </DropdownMenu>
 
         <input
-          className="border-l border-gray-300 bg-transparent font-semibold text-sm pl-4 bg- w-full h-[3rem]"
+          className="border-2 border-gray-600 bg-transparent font-semibold text-sm pl-4 bg- w-full h-[3rem]"
           type="text"
           placeholder="I'm searching for ..."
         />
@@ -254,7 +253,37 @@ const Navbar = () => {
             />
           </svg>
         </button>
+
+
+        <div className="md:w-48  sm:flex flex-col  mr-2 ">
+            {session ? (
+              <Link
+                href="/api/auth/signout?callbackUrl=/"
+                className="text-dark_prm font-semibold bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300  rounded-lg text-sm px-5 py-2.5 dark:bg-yellow-400 dark:hover:bg-yellow-500 focus:outline-none dark:focus:ring-yellow-400 mt-5 md:mt-0"
+              >
+                Logout
+              </Link>
+            ) : (
+              <>
+                <div className="flex gap-2">
+                  <Link
+                    href="/api/auth/signin"
+                    className=" text-dark_prm bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-yellow-400 dark:hover:bg-yellow-600 focus:outline-none dark:focus:ring-yellow-400 mt-5 md:mt-0"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/Signup"
+                    className=" text-dark_prm bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-yellow-400 dark:hover:bg-yellow-600 focus:outline-none dark:focus:ring-yellow-400 mt-5 md:mt-0"
+                  >
+                    Signup
+                  </Link>
+                </div>
+              </>
+            )}
+          </div>
       </div>
+      
     </>
   );
 };

@@ -4,6 +4,7 @@ import Navbar from "@/components/Custom/Navbar";
 import { ThemeProvider } from "@/Wrapper/theme-provider";
 import Footer from "@/components/Custom/Footer";
 import AuthProvider from "@/Wrapper/Authprovider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
           >
             <Navbar />
             {children}
+            <Toaster />
             <Footer />
           </ThemeProvider>
         </AuthProvider>
