@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { ModeToggle } from "../ShadCn/ModeToggle";
 import {
@@ -9,7 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+
 const Navbar = () => {
+  // console.log(useSession())
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <>
       <header className="bg-light_prm dark:bg-dark_prm border-2 border-b-dark_prm">
@@ -25,8 +32,22 @@ const Navbar = () => {
           {/* search */}
           <div className="w-full max-w-xs xl:max-w-lg 2xl:max-w-2xl bg-gray-100 rounded-md hidden xl:flex items-center">
             <DropdownMenu>
-              <DropdownMenuTrigger className="bg-transparent uppercase font-bold text-sm p-4 dark:text-dark_prm">
+              <DropdownMenuTrigger className="flex bg-transparent uppercase font-bold text-sm p-4 dark:text-dark_prm">
                 categories
+                <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4 ml-2 "
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
+            </svg>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -62,34 +83,56 @@ const Navbar = () => {
             </button>
           </div>
           {/* phone number */}
-          <div className="ml-auto md:w-48 hidden sm:flex flex-col place-items-end mr-2">
+          {/* <div className="ml-auto md:w-48 hidden sm:flex flex-col place-items-end mr-2">
             <span className="font-bold md:text-xl">7050104072</span>
             <span className="font-semibold text-sm text-gray-400">
               Support 24/7
             </span>
-          </div>
+          </div> */}
+          {/* <li className="mt-2 md:mt-0 mb-4 md:mb-0"> */}
+          <li className="ml-auto md:w-48 hidden sm:flex flex-col place-items-end mr-2">
+            {session ? (
+              <Link
+                href="/api/auth/signout?callbackUrl=/"
+                className="text-dark_prm font-semibold bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300  rounded-lg text-sm px-5 py-2.5 dark:bg-yellow-400 dark:hover:bg-yellow-500 focus:outline-none dark:focus:ring-yellow-400 mt-5 md:mt-0"
+              >
+                Logout
+              </Link>
+            ) : (
+              <Link
+                href="/api/auth/signin"
+                className=" text-dark_prm bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-yellow-400 dark:hover:bg-yellow-600 focus:outline-none dark:focus:ring-yellow-400 mt-5 md:mt-0"
+              >
+                Login
+              </Link>
+            )}
+          </li>
           {/* buttons */}
           <nav className="contents">
             <ul className="ml-4 xl:w-48 flex items-center justify-end">
-              <li className="ml-2 lg:ml-4 relative inline-block">
-                <a >
-                  <svg
-                    className="h-9 lg:h-10 p-2 text-gray-500"
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="far"
-                    data-icon="user"
-                    role="img"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"
-                    />
-                  </svg>
-                </a>
-              </li>
+              {session && (
+                <>
+                  <li className="ml-2 lg:ml-4 relative inline-block">
+                    <a>
+                      <svg
+                        className="h-9 lg:h-10 p-2 text-gray-500"
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="far"
+                        data-icon="user"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </>
+              )}
 
               <li className="ml-2 lg:ml-4 relative inline-block">
                 <ModeToggle />
@@ -117,7 +160,7 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="ml-2 lg:ml-4 relative inline-block">
-                <a >
+                <a>
                   <div className="absolute -top-1 right-0 z-10 bg-yellow-400 text-xs font-bold px-1 py-0.5 rounded-sm">
                     12
                   </div>
@@ -151,8 +194,22 @@ const Navbar = () => {
 
       <div className="w-full flex  bg-gray-100 rounded-md  items-center xl:hidden">
         <DropdownMenu>
-          <DropdownMenuTrigger className="bg-transparent uppercase font-bold text-sm p-4 dark:text-dark_prm">
+          <DropdownMenuTrigger className="bg-transparent uppercase font-bold text-sm p-4 dark:text-dark_prm flex justify-around">
             categories
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4 ml-2 "
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
+            </svg>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Custom/Navbar";
 import { ThemeProvider } from "@/Wrapper/theme-provider";
 import Footer from "@/components/Custom/Footer";
+import AuthProvider from "@/Wrapper/Authprovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,16 +16,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-          <Footer/>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+            <Footer />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
