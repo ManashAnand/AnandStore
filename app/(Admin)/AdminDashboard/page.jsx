@@ -48,7 +48,7 @@ const AdminDashboard = () => {
             <div className="flex flex-col items-center w-full mt-3 border-t border-gray-700">
               <Link
                 className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-700 hover:text-gray-300"
-                href="/CreateNews"
+                href="/CreateProduct"
               >
                 <svg
                   className="w-6 h-6 stroke-current"
