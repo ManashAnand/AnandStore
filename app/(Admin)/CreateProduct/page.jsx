@@ -3,15 +3,6 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-// import {
-//   SelectValue,
-//   SelectTrigger,
-//   SelectItem,
-//   SelectContent,
-//   Select,
-// } from "@/components/ui/select";
-
-import Select from "react-select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 
@@ -20,6 +11,8 @@ import { redirect } from "next/navigation";
 import BackButton from "@/components/Custom/BackButton";
 import { Controller, useForm } from "react-hook-form";
 import { uploadImage } from "@/lib/uploadImage";
+import { toast } from "sonner";
+import { Select, SelectItem } from "@nextui-org/react";
 
 const CreateProduct = () => {
   const { data: session } = useSession({
@@ -40,6 +33,7 @@ const CreateProduct = () => {
   });
 
   // react-select options
+
   const categories = [
     { value: "Computer-Science", label: "Computer Science" },
     { value: "Physics", label: "Physics" },
@@ -75,13 +69,14 @@ const CreateProduct = () => {
     { value: "l", label: "L" },
     { value: "xl", label: "XL" },
   ];
-  const tags = [
+  const taginitialState = [
     { value: "new-arrival", label: "New Arrival" },
     { value: "sale", label: "Sale" },
     { value: "best-seller", label: "Best Seller" },
     { value: "limited-edition", label: "Limited Edition" },
     { value: "exclusive", label: "Exclusive" },
   ];
+
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -90,6 +85,16 @@ const CreateProduct = () => {
 
     const imageUrl = uploadImage(image);
     console.log(imageUrl);
+    if (imageUrl == false) {
+      toast("Image doesn't upload , try again !!!");
+    } else {
+    }
+  };
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+    }),
   };
 
   return (
@@ -161,9 +166,13 @@ const CreateProduct = () => {
                     rules={{ required: true }}
                     render={({ field }) => (
                       <Select
+                        styles={{ customStyles }}
                         classNames={{
-                          control: () => "border border-gray-300 rounded-md",
+                          control: "dark:bg-red-200",
+                          // option: "bg-green-200",
+                          menu: "dark:bg-[#020817] p-2",
                         }}
+                        primaryColor={"violet"}
                         {...field}
                         isSearchable
                         options={categories}
@@ -257,59 +266,35 @@ const CreateProduct = () => {
                     </p>
                   )}
                 </div>
-                {/* <div>
-                  <Label htmlFor="reviews">Reviews</Label>
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="review-user">User</Label>
-                      <Input
-                        id="review-user"
-                        placeholder="Enter reviewer name"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="review-text">Review</Label>
-                      <Textarea
-                        className="min-h-[120px]"
-                        id="review-text"
-                        placeholder="Enter review text"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="review-rating">Rating</Label>
-                      <Input
-                        id="review-rating"
-                        placeholder="Enter review rating"
-                        type="number"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="review-created-at">Created At</Label>
-                      <Input
-                        id="review-created-at"
-                        type="date"
-                        {...register("Created")}
-                      />
-                    </div>
-                  </div>
-                </div> */}
+
                 <div>
                   <Label htmlFor="tags">Tags</Label>
-                  <Controller
-                    name="tags"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select {...field} isMulti isSearchable options={tags} />
-                    )}
-                  />
+
+                  <div className="flex w-full max-w-md flex-col gap-2 ">
+                    <Select
+                      label="All items"
+                      htmlFor="tags"
+                      selectionMode="multiple"
+                      placeholder="Select an animal"
+                      className="max-w-xs "
+                    >
+                      {taginitialState.map((tag) => (
+                        <SelectItem key={tag.value}  {...register("tags",{required:true})}  className="">
+                          {tag.label}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                    <p className="text-small text-default-500 ">
+                      {/* Selected: {Array.from(tags).join(", ")} */}
+                    </p>
+                  </div>
                   {errors.tags && (
                     <p className="errorMsg text-red-500 mt-2">
                       This is a required field.
                     </p>
                   )}
                 </div>
-                <div>
+                {/* {/* <div>
                   <Label htmlFor="size">Size</Label>
 
                   <Controller
@@ -325,7 +310,7 @@ const CreateProduct = () => {
                       This is a required field.
                     </p>
                   )}
-                </div>
+                </div> */}
                 <div>
                   <Label htmlFor="color">Color</Label>
                   <Controller

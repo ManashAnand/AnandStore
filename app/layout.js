@@ -5,7 +5,8 @@ import { ThemeProvider } from "@/Wrapper/theme-provider";
 import Footer from "@/components/Custom/Footer";
 import AuthProvider from "@/Wrapper/Authprovider";
 import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
+import {  NextUIProviderWrapper } from "@/Wrapper/NextUIprovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,20 +19,22 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Navbar />
-            {children}
-            <Toaster />
-            <Footer />
-          </ThemeProvider>
-        </AuthProvider>
-        <Analytics/>
+        <NextUIProviderWrapper>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              {children}
+              <Toaster />
+              <Footer />
+            </ThemeProvider>
+          </AuthProvider>
+        </NextUIProviderWrapper>
+        <Analytics />
       </body>
     </html>
   );
