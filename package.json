@@ -20,6 +20,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@stripe/stripe-js": "^3.4.0",
     "@vercel/analytics": "^1.2.2",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",

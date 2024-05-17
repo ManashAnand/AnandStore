@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
-
+import axios from 'axios'
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { uploadImage } from "@/lib/uploadImage";
@@ -18,7 +18,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
-import { categoryItems, sizes, taginitialState,colors } from "@/data";
+import { categoryItems, sizes, taginitialState, colors } from "@/data";
 
 const CreateProduct = () => {
   const { data: session } = useSession({
@@ -57,9 +57,6 @@ const CreateProduct = () => {
 
   // react-select options
 
- 
-
-
   const colors2 = [
     { value: "black", label: "Black" },
     { value: "white", label: "White" },
@@ -75,28 +72,42 @@ const CreateProduct = () => {
     { value: "xl", label: "XL" },
   ];
 
-
   const processInputData = (data) => {
     return {
       ...data,
-      category: Array.from(data.category).join(', '), 
-      size: Array.from(data.size).join(', '), 
-      color: Array.from(data.color).join(', '), 
-      tags: data.tags.split(',')
+      category: Array.from(data.category).join(", "),
+      size: Array.from(data.size).join(", "),
+      color: Array.from(data.color).join(", "),
+      tags: data.tags.split(","),
     };
   };
 
   const onSubmit = async (data) => {
     data = processInputData(data);
     console.log(data);
-    // const image = data.image[0];
+    const image = data.image[0];
 
-    // const imageUrl = uploadImage(image);
-    // console.log(imageUrl);
-    // if (imageUrl == false) {
-    //   toast("Image doesn't upload , try again !!!");
-    // } else {
-    // }
+    const imageUrl = await uploadImage(image);
+    // const imageUrl = "ImageUrl"
+    console.log(imageUrl);
+    if (imageUrl) {
+      try {
+        const resp = await axios.post("/api/admin/createProduct", {
+          data,
+          imageUrl,
+        });
+        console.log(resp);
+        if(resp.status == 201){
+          toast("product created")
+        }
+        else{
+          toast("Please try again ")
+        }
+      } catch (error) {
+        console.log(error);
+        toast("Error in server side")
+      }
+    }
   };
 
   return (
@@ -169,12 +180,13 @@ const CreateProduct = () => {
                   )}
                 </div>
                 <div>
-                  <Label className="ml-2 mt-2" >
-                      category
-                    </Label>
-                  <Dropdown >
+                  <Label className="ml-2 mt-2">category</Label>
+                  <Dropdown>
                     <DropdownTrigger>
-                      <Button variant="shadow" className="capitalize max-w-md w-full">
+                      <Button
+                        variant="shadow"
+                        className="capitalize max-w-md w-full"
+                      >
                         {categorieValue}
                       </Button>
                     </DropdownTrigger>
@@ -184,14 +196,13 @@ const CreateProduct = () => {
                       disallowEmptySelection
                       selectionMode="single"
                       onSelectionChange={handleCategorieChange}
-                      {...register("category",{required:true})}
+                      {...register("category", { required: true })}
                       htmlFor="category"
                       className=" w-full "
                     >
                       {categoryItems?.map((item) => {
                         return (
-                          <DropdownItem key={item.value} value={item.value} 
-                          >
+                          <DropdownItem key={item.value} value={item.value}>
                             {item.label}
                           </DropdownItem>
                         );
@@ -199,11 +210,10 @@ const CreateProduct = () => {
                     </DropdownMenu>
                   </Dropdown>
                   {errors.category && (
-                      <p className=" text-red-500 mt-2 text-xs ml-2">
-                        This is a required field
-                      </p>
-                    )}
-
+                    <p className=" text-red-500 mt-2 text-xs ml-2">
+                      This is a required field
+                    </p>
+                  )}
                 </div>
                 <div>
                   <Label className="ml-2" htmlFor="brand">
@@ -346,12 +356,13 @@ const CreateProduct = () => {
                   )}
                 </div>
                 <div>
-                  <Label className="ml-2 mt-2" >
-                      Sizes
-                    </Label>
-                  <Dropdown >
+                  <Label className="ml-2 mt-2">Sizes</Label>
+                  <Dropdown>
                     <DropdownTrigger>
-                      <Button variant="shadow" className="capitalize max-w-md w-full">
+                      <Button
+                        variant="shadow"
+                        className="capitalize max-w-md w-full"
+                      >
                         {sizeValue}
                       </Button>
                     </DropdownTrigger>
@@ -361,14 +372,13 @@ const CreateProduct = () => {
                       disallowEmptySelection
                       selectionMode="single"
                       onSelectionChange={handleSizeChange}
-                      {...register("size",{required:true})}
+                      {...register("size", { required: true })}
                       htmlFor="size"
                       className=" w-full "
                     >
                       {sizes?.map((item) => {
                         return (
-                          <DropdownItem key={item.value} value={item.value} 
-                          >
+                          <DropdownItem key={item.value} value={item.value}>
                             {item.label}
                           </DropdownItem>
                         );
@@ -376,21 +386,20 @@ const CreateProduct = () => {
                     </DropdownMenu>
                   </Dropdown>
                   {errors.size && (
-                      <p className=" text-red-500 mt-2 text-xs ml-2">
-                        This is a required field
-                      </p>
-                    )}
-
+                    <p className=" text-red-500 mt-2 text-xs ml-2">
+                      This is a required field
+                    </p>
+                  )}
                 </div>
 
-
                 <div>
-                  <Label className="ml-2 mt-2" >
-                      Colors
-                    </Label>
-                  <Dropdown >
+                  <Label className="ml-2 mt-2">Colors</Label>
+                  <Dropdown>
                     <DropdownTrigger>
-                      <Button variant="shadow" className="capitalize max-w-md w-full">
+                      <Button
+                        variant="shadow"
+                        className="capitalize max-w-md w-full"
+                      >
                         {colorValue}
                       </Button>
                     </DropdownTrigger>
@@ -400,14 +409,13 @@ const CreateProduct = () => {
                       disallowEmptySelection
                       selectionMode="single"
                       onSelectionChange={handleColorChange}
-                      {...register("color",{required:true})}
+                      {...register("color", { required: true })}
                       htmlFor="color"
                       className=" w-full "
                     >
                       {colors?.map((item) => {
                         return (
-                          <DropdownItem key={item.value} value={item.value} 
-                          >
+                          <DropdownItem key={item.value} value={item.value}>
                             {item.label}
                           </DropdownItem>
                         );
@@ -415,18 +423,17 @@ const CreateProduct = () => {
                     </DropdownMenu>
                   </Dropdown>
                   {errors.color && (
-                      <p className=" text-red-500 mt-2 text-xs ml-2">
-                        This is a required field
-                      </p>
-                    )}
-
+                    <p className=" text-red-500 mt-2 text-xs ml-2">
+                      This is a required field
+                    </p>
+                  )}
                 </div>
-
-
               </div>
             </div>
             <div className="flex justify-end">
-              <Button type="submit" variant="ghost">Save Product</Button>
+              <Button type="submit" variant="ghost">
+                Save Product
+              </Button>
             </div>
           </div>
         </div>
