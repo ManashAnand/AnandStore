@@ -7,6 +7,13 @@ import AdminStatCard from '@/components/Custom/AdminStatCard';
 import AdminLineChart from '@/components/Custom/AdminLineChart';
 import AdminDoughChart from '@/components/Custom/AdminDoughChart';
 import Link from 'next/link';
+import ProductTable from '@/components/Custom/ProductTable';
+
+import useSWR from 'swr'
+import axios from 'axios'
+
+
+const fetcher = url => axios.get(url).then(res => res.data)
 
 const AdminDashboard = () => {
     const { data: session } = useSession({
@@ -25,6 +32,12 @@ const AdminDashboard = () => {
             checkAdmin();
       },[])
 
+
+      
+  const { data:ProductData, error, isLoading } = useSWR('/api/admin/getProduct', fetcher)
+
+  if(isLoading) return "Loading..."
+  if(error) return "Error"
   return (
     <>
     <div className="w-full  md:p-10 p-2 flex  flex-col xl:flex-row">
@@ -39,7 +52,6 @@ const AdminDashboard = () => {
               <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
             </svg>
             <span className="ml-2 text-sm font-bold">
-                {/* {lang ? "Royal Times  " : "   शाही समय"} */}
                 Anand Store
 
                 </span>
@@ -239,6 +251,10 @@ const AdminDashboard = () => {
             <AdminStatCard title={"Number of Products"} descp={"0/10"}/>
             <AdminStatCard title={"Number of Order"} descp={"0/10"}/>
             <AdminStatCard title={"Number of Order Delivered"} descp={"0/10"}/>
+          </div>
+          
+          <div className=" flex justify-between items-center flex-col xl:flex-row gap-8 mt-8">
+            <ProductTable ProductData={ProductData}/>
           </div>
           <div className=" flex justify-between items-center flex-col xl:flex-row gap-8 mt-8">
             <AdminLineChart />

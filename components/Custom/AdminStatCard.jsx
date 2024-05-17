@@ -3,13 +3,13 @@ import React from "react";
 const AdminStatCard = ({title,descp}) => {
   return (
     <>
-      <div class="relative flex  flex-col mt-6 sm:mt-0 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-80 border-2">
+      <div class="relative flex  flex-col mt-6 sm:mt-0 text-gray-700 bg-white dark:bg-dark_prm dark:text-light_prm shadow-md bg-clip-border rounded-xl w-80 border-2">
         <div class="p-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-12 h-12 mb-4 text-gray-900"
+            class="w-12 h-12 mb-4 text-gray-900 dark:text-light_prm"
           >
             <path
               fill-rule="evenodd"

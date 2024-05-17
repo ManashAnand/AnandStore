@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import axios from 'axios'
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { uploadImage } from "@/lib/uploadImage";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -21,7 +21,12 @@ import {
 import { categoryItems, sizes, taginitialState, colors } from "@/data";
 
 
-const CreateProduct = () => {
+const EditProduct = () => {
+
+    const {ProductId} = useParams();
+
+    const router = useRouter();
+
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -56,23 +61,6 @@ const CreateProduct = () => {
     setValue("color", value);
   };
 
-  // react-select options
-
-  const colors2 = [
-    { value: "black", label: "Black" },
-    { value: "white", label: "White" },
-    { value: "red", label: "Red" },
-    { value: "blue", label: "Blue" },
-    { value: "green", label: "Green" },
-  ];
-  const size2 = [
-    { value: "xs", label: "XS" },
-    { value: "s", label: "S" },
-    { value: "m", label: "M" },
-    { value: "l", label: "L" },
-    { value: "xl", label: "XL" },
-  ];
-
   const processInputData = (data) => {
     return {
       ...data,
@@ -89,17 +77,17 @@ const CreateProduct = () => {
     const image = data.image[0];
 
     const imageUrl = await uploadImage(image);
-    // const imageUrl = "ImageUrl"
     console.log(imageUrl);
     if (imageUrl) {
       try {
-        const resp = await axios.post("/api/admin/createProduct", {
+        const resp = await axios.post(`/api/admin/editProduct/${ProductId}`, {
           data,
           imageUrl,
         });
         console.log(resp);
-        if(resp.status == 201){
-          toast("product created")
+        if(resp.status == 200){
+          toast("product updated")
+          router.push('/AdminDashboard')
         }
         else{
           toast("Please try again ")
@@ -263,7 +251,7 @@ const CreateProduct = () => {
                   <input
                     {...register(
                       "image"
-                      ,{required:true}
+                      // ,{required:true}
                     )}
                     className="relative mt-4 m-0 block w-full min-w-0 flex-auto rounded border cursor-pointer border-solid border-blue-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-blue-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-blue-100 file:px-3 file:py-[0.32rem] file:text-blue-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-blue-700 hover:file:text-white focus:border-blue focus:text-blue-700 focus:shadow-text-blue focus:outline-none dark:border-blue-600 dark:text-blue-200 dark:file:bg-blue-700 dark:file:text-blue-100 dark:focus:border-blue"
                     type="file"
@@ -445,4 +433,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default EditProduct;
