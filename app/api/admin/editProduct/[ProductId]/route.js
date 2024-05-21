@@ -2,7 +2,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/connectDb";
 import Product from "@/(models)/Product";
-import { validateProductData } from "@/lib/validateProduct";
 
 
 

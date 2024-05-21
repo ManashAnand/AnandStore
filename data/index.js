@@ -38,62 +38,9 @@ const  categoryItems = [
   const columns = [
     {Product: "Product", uid: "Product"},
     {Product: "Category", uid: "Category"},
-    {Product: "STATUS", uid: "status"},
+    {Product: "Brand", uid: "Brand"},
     {Product: "ACTIONS", uid: "actions"},
   ];
-  
-  const users = [
-    {
-      id: 1,
-      Product: "Tony Reichert",
-      Category: "CEO",
-      team: "Management",
-      status: "active",
-      age: "29",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-      email: "tony.reichert@example.com",
-    },
-    {
-      id: 2,
-      Product: "Zoey Lang",
-      Category: "Technical Lead",
-      team: "Development",
-      status: "paused",
-      age: "25",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-      email: "zoey.lang@example.com",
-    },
-    {
-      id: 3,
-      Product: "Jane Fisher",
-      Category: "Senior Developer",
-      team: "Development",
-      status: "active",
-      age: "22",
-      avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-      email: "jane.fisher@example.com",
-    },
-    {
-      id: 4,
-      Product: "William Howard",
-      Category: "Community Manager",
-      team: "Marketing",
-      status: "vacation",
-      age: "28",
-      avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-      email: "william.howard@example.com",
-    },
-    {
-      id: 5,
-      Product: "Kristen Copper",
-      Category: "Sales Manager",
-      team: "Sales",
-      status: "active",
-      age: "24",
-      avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
-      email: "kristen.cooper@example.com",
-    },
-  ];
-  
 
-  export {categoryItems,sizes,taginitialState,colors,columns,users};
+
+  export {categoryItems,sizes,taginitialState,colors,columns};
